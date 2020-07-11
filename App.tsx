@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, {Component} from 'react';
 import {hydrateStores, StoreContext, stores} from "./src/stores";
 import 'mobx-react-lite/batchingForReactDom'
