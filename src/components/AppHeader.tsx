@@ -7,7 +7,7 @@ type Props = {
 
 const AppHeader: FunctionComponent<Props> = ({title}) => {
     return (
-        <Header hasSegment={false} hasSubtitle={false} hasTabs={false}>
+        <Header hasSegment={false} hasSubtitle={false} hasTabs={false} style={{paddingTop: 0}}>
             <Left>
                 <Button transparent>
                     <Icon name='arrow-back'/>

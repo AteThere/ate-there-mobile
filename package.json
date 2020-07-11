@@ -17,7 +17,7 @@
     "mobx": "^5.15.4",
     "mobx-persist": "^0.4.1",
     "mobx-react": "^6.2.2",
-    "native-base": "2.11",
+    "native-base": "^2.13.12",
     "react": "~16.11.0",
     "react-dom": "~16.11.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
