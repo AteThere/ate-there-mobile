@@ -1,14 +1,20 @@
 import React, {Component} from 'react';
-import CounterUI from "./src/components/CounterUI";
-import {store, StoreContext} from "./src/stores";
+import {hydrateStores, StoreContext, stores} from "./src/stores";
 import 'mobx-react-lite/batchingForReactDom'
 import {AppLoading} from 'expo';
-import {Body, Container, Header, Left, Right, Root, Subtitle, Text, Title} from 'native-base';
+import {Root} from 'native-base';
 import * as Font from 'expo-font';
 import {Ionicons} from '@expo/vector-icons';
+import HomeScreen from "./src/screens/HomeScreen";
 
-export default class App extends Component<any, any> {
-    constructor(props) {
+type Props = {};
+
+type State = {
+    isReady: boolean
+};
+
+export default class App extends Component<Props, State> {
+    constructor(props: Readonly<Props>) {
         super(props);
         this.state = {
             isReady: false,
@@ -16,11 +22,15 @@ export default class App extends Component<any, any> {
     }
 
     async componentDidMount() {
-        await Font.loadAsync({
-            Roboto: require('native-base/Fonts/Roboto.ttf'),
-            Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-            ...Ionicons.font,
-        });
+        await Promise.all([
+            hydrateStores(),
+            Font.loadAsync({
+                Roboto: require('native-base/Fonts/Roboto.ttf'),
+                Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+                ...Ionicons.font,
+            })
+        ]);
+
         this.setState({isReady: true});
     }
 
@@ -30,20 +40,9 @@ export default class App extends Component<any, any> {
         }
 
         return (
-            <StoreContext.Provider value={store}>
+            <StoreContext.Provider value={stores}>
                 <Root>
-                    <Container>
-                        <Header>
-                            <Left/>
-                            <Body>
-                                <Title>Title</Title>
-                                <Subtitle>Subtitle</Subtitle>
-                            </Body>
-                            <Right/>
-                        </Header>
-                        <Text>Open up App.js to start working on your app!</Text>
-                        <CounterUI/>
-                    </Container>
+                    <HomeScreen/>
                 </Root>
             </StoreContext.Provider>
         );
