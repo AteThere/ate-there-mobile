@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from "react";
-import {Button, Text, View} from "react-native";
 import {observer} from "mobx-react";
 import {useStore} from "../stores";
+import {Button, Icon, Text, View} from 'native-base';
 
 type CounterUIProps = {}
 
@@ -9,10 +9,18 @@ const CounterUI: FunctionComponent<CounterUIProps> = (props) => {
     const {counterStore} = useStore();
 
     return (
-        <View>
-            <Text>Counter: {counterStore.count}</Text>
-            <Button title={'Increment'} onPress={() => counterStore.increment()}/>
-            <Button title={'Decrement'} onPress={() => counterStore.decrement()}/>
+        <View style={{flexDirection: 'row'}}>
+            <Button block success iconLeft onPress={() => counterStore.increment()}>
+                <Icon name='arrow-up'/>
+                <Text>Add</Text>
+            </Button>
+            <Button disabled block bordered>
+                <Text>{counterStore.count}</Text>
+            </Button>
+            <Button block danger iconLeft onPress={() => counterStore.decrement()}>
+                <Icon name='arrow-down'/>
+                <Text>Remove</Text>
+            </Button>
         </View>
     );
 }
