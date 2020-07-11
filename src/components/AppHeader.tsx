@@ -7,7 +7,7 @@ type Props = {
 };
 
 const AppHeader: FunctionComponent<Props> = ({title, LeftComponent}) => (
-    <Header hasSegment={false} hasSubtitle={false} hasTabs={false}>
+    <Header hasSegment={false} hasSubtitle={false} hasTabs={false} style={{padding: 0}}>
         <Left>
             {LeftComponent}
         </Left>
@@ -17,5 +17,4 @@ const AppHeader: FunctionComponent<Props> = ({title, LeftComponent}) => (
         <Right/>
     </Header>
 );
-
 export default AppHeader;
