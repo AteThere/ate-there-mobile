@@ -1,8 +1,9 @@
 // @ts-ignore
 import React from 'react';
 // @ts-ignore
-import {Button, Container, Content, Form, H1, Icon, Input, Item, Text, View} from 'native-base';
+import {Button, Container, Content, H1, Text, View} from 'native-base';
 import {StyleSheet} from "react-native";
+import LogInForm from "../../forms/LogInForm";
 
 const LogInScreen = () => (
     <Container>
@@ -10,21 +11,7 @@ const LogInScreen = () => (
             <View style={styles.header}>
                 <H1>Log In</H1>
             </View>
-            <Form style={styles.form}>
-                <Item>
-                    <Icon active name='person'/>
-                    <Input placeholder='Icon Textbox'/>
-                    <Icon active name='close-circle'/>
-                </Item>
-                <Item>
-                    <Icon active name='lock'/>
-                    <Input placeholder='Icon Alignment in Textbox'/>
-                    <Icon active name='close-circle'/>
-                </Item>
-            </Form>
-            <Button style={styles.btn}>
-                <Text>Log In</Text>
-            </Button>
+            <LogInForm style={styles.form}/>
             <Button bordered style={styles.btn}>
                 <Text>Register</Text>
             </Button>
