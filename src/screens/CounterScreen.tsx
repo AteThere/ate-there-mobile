@@ -1,5 +1,4 @@
 import React from 'react';
-import 'mobx-react-lite/batchingForReactDom'
 import {Container, Content} from 'native-base';
 import CounterUI from "../components/CounterUI";
 import AppHeader from "../components/AppHeader";
