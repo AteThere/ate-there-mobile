@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {store, StoreContext} from "./src/stores";
+import {hydrateStores, StoreContext, stores} from "./src/stores";
 import 'mobx-react-lite/batchingForReactDom'
 import {AppLoading} from 'expo';
 import {Root} from 'native-base';
@@ -22,11 +22,15 @@ export default class App extends Component<Props, State> {
     }
 
     async componentDidMount() {
-        await Font.loadAsync({
-            Roboto: require('native-base/Fonts/Roboto.ttf'),
-            Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-            ...Ionicons.font,
-        });
+        await Promise.all([
+            hydrateStores(),
+            Font.loadAsync({
+                Roboto: require('native-base/Fonts/Roboto.ttf'),
+                Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+                ...Ionicons.font,
+            })
+        ]);
+
         this.setState({isReady: true});
     }
 
@@ -36,7 +40,7 @@ export default class App extends Component<Props, State> {
         }
 
         return (
-            <StoreContext.Provider value={store}>
+            <StoreContext.Provider value={stores}>
                 <Root>
                     <HomeScreen/>
                 </Root>
