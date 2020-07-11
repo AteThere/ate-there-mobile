@@ -1,14 +1,20 @@
 import React, {Component} from 'react';
-import CounterUI from "./src/components/CounterUI";
 import {store, StoreContext} from "./src/stores";
 import 'mobx-react-lite/batchingForReactDom'
 import {AppLoading} from 'expo';
-import {Body, Container, Header, Left, Right, Root, Subtitle, Text, Title} from 'native-base';
+import {Root} from 'native-base';
 import * as Font from 'expo-font';
 import {Ionicons} from '@expo/vector-icons';
+import HomeScreen from "./src/screens/HomeScreen";
 
-export default class App extends Component<any, any> {
-    constructor(props) {
+type Props = {};
+
+type State = {
+    isReady: boolean
+};
+
+export default class App extends Component<Props, State> {
+    constructor(props: Readonly<Props>) {
         super(props);
         this.state = {
             isReady: false,
@@ -32,18 +38,7 @@ export default class App extends Component<any, any> {
         return (
             <StoreContext.Provider value={store}>
                 <Root>
-                    <Container>
-                        <Header>
-                            <Left/>
-                            <Body>
-                                <Title>Title</Title>
-                                <Subtitle>Subtitle</Subtitle>
-                            </Body>
-                            <Right/>
-                        </Header>
-                        <Text>Open up App.js to start working on your app!</Text>
-                        <CounterUI/>
-                    </Container>
+                    <HomeScreen/>
                 </Root>
             </StoreContext.Provider>
         );
