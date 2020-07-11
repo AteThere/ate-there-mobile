@@ -1,19 +1,18 @@
 import React from 'react';
 import 'mobx-react-lite/batchingForReactDom'
-import {Body, Container, Content, Header, Left, Right, Subtitle, Text, Title} from 'native-base';
-import CounterUI from "../components/CounterUI";
+import {Container, Content, Text} from 'native-base';
 import AppHeader from "../components/AppHeader";
+import NavButton from "../components/NavButton";
 
 const HomeScreen = () => (
     <Container>
-        <AppHeader title={'Home'}/>
+        <AppHeader title={'Home'} LeftComponent={(
+            <NavButton iconName={'clock'} onPress={(navigation) => navigation.navigate('Counter')}/>
+        )}/>
         <Content scrollEnabled={false}>
             <Text>Open up App.js to start working on your app!</Text>
         </Content>
     </Container>
 );
 
-HomeScreen.navigationOptions = {
-    header: null,
-};
 export default HomeScreen;

@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, {Component} from 'react';
 import {hydrateStores, StoreContext, stores} from "./src/stores";
 import 'mobx-react-lite/batchingForReactDom'
@@ -5,15 +6,13 @@ import {AppLoading} from 'expo';
 import {Root} from 'native-base';
 import * as Font from 'expo-font';
 import {Ionicons} from '@expo/vector-icons';
-import HomeScreen from "./src/screens/HomeScreen";
-
-type Props = {};
+import Navigation from "./src/navigation";
 
 type State = {
-    isReady: boolean
+    isReady: boolean,
 };
 
-export default class App extends Component<Props, State> {
+export default class App extends Component<{}, State> {
     constructor(props: Readonly<Props>) {
         super(props);
         this.state = {
@@ -42,7 +41,7 @@ export default class App extends Component<Props, State> {
         return (
             <StoreContext.Provider value={stores}>
                 <Root>
-                    <HomeScreen/>
+                    <Navigation/>
                 </Root>
             </StoreContext.Provider>
         );

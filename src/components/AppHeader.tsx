@@ -1,34 +1,20 @@
 import React, {FunctionComponent} from 'react';
-import {Body, Button, Header, Icon, Left, Right, Title} from 'native-base';
+import {Body, Header, Left, Right, Title} from 'native-base';
 
 type Props = {
-    title: string
+    title: string,
+    LeftComponent: React.ReactNode
 };
 
-const AppHeader: FunctionComponent<Props> = ({title}) => {
-    return (
-        <Header hasSegment={false} hasSubtitle={false} hasTabs={false} style={{paddingTop: 0}}>
-            <Left>
-                <Button transparent>
-                    <Icon name='arrow-back'/>
-                </Button>
-            </Left>
-            <Body>
-                <Title>{title}</Title>
-            </Body>
-            <Right>
-                <Button transparent>
-                    <Icon name='search'/>
-                </Button>
-                <Button transparent>
-                    <Icon name='heart'/>
-                </Button>
-                <Button transparent>
-                    <Icon name='more'/>
-                </Button>
-            </Right>
-        </Header>
-    );
-};
-
+const AppHeader: FunctionComponent<Props> = ({title, LeftComponent}) => (
+    <Header hasSegment={false} hasSubtitle={false} hasTabs={false} style={{paddingTop: 0}}>
+        <Left>
+            {LeftComponent}
+        </Left>
+        <Body>
+            <Title>{title}</Title>
+        </Body>
+        <Right/>
+    </Header>
+);
 export default AppHeader;
