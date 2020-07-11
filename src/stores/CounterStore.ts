@@ -1,7 +1,8 @@
 import {action, observable} from "mobx";
+import {persist} from "mobx-persist";
 
 export class CounterStore {
-    @observable count: number = 25;
+    @persist @observable count: number = 25;
 
     @action increment() {
         this.count++;
@@ -11,6 +12,3 @@ export class CounterStore {
         this.count--;
     }
 }
-
-const counterStore = new CounterStore();
-export default counterStore;
