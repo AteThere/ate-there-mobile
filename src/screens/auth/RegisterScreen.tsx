@@ -18,9 +18,9 @@ const RegisterScreen = () => {
                     <Text>Have an account? Log in here.</Text>
                 </Button>
 
-                <Button bordered style={styles.btn}>
-                    <Text>Forgot Password</Text>
-                </Button>
+                {/*<Button bordered style={styles.btn}>*/}
+                {/*    <Text>Forgot Password</Text>*/}
+                {/*</Button>*/}
             </Content>
         </Container>
     );
