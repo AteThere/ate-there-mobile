@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react'
-import {Button, Form, Icon, Input, Item, Text, Toast} from "native-base";
+import {Button, Form, Icon, Input, Item, Text} from "native-base";
 import * as Yup from 'yup';
 import {Formik} from 'formik';
 import {useStore} from "../stores";
@@ -7,6 +7,7 @@ import {User} from "../stores/AuthStore";
 import {observer} from "mobx-react";
 import {YellowBox} from 'react-native'
 import {JsonView} from "../components/JsonView";
+import Notifications from "../functions/notifications";
 
 YellowBox.ignoreWarnings([
     'Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`',
@@ -33,19 +34,13 @@ const LogInForm: FunctionComponent<Props> = ({style}) => {
     });
 
     const onLogInSuccess = (user: User) => {
-        Toast.show({
-            text: `Welcome back ${user.name}!`,
-            buttonText: 'Okay',
-            type: 'success'
-        })
+        Notifications.success({text: `Welcome back ${user.name}!`});
     };
+
     const onLoginFail = (e: Error) => {
-        Toast.show({
+        Notifications.danger({
             text: e.message,
-            buttonText: 'Okay',
-            type: 'danger',
-            position: 'top'
-        })
+        });
     };
 
     const submitAction = async (values: { email: any; password: any; }, {setFieldError}: any) => {
@@ -53,11 +48,9 @@ const LogInForm: FunctionComponent<Props> = ({style}) => {
             const {email, password} = values;
             await authStore.login(email, password, onLogInSuccess, onLoginFail);
         } catch (e) {
-            Toast.show({
+            Notifications.danger({
                 text: e.message,
-                buttonText: 'Okay',
-                type: 'danger'
-            })
+            });
         }
     };
 

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ate-there-mobile",
-    "slug": "ate-there-mobile",
+    "name": "AteThere",
+    "slug": "atethere",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,6 +21,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": ""
   }
 }
