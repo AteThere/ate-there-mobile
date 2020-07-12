@@ -1,5 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {Body, Header, Left, Right, Title} from 'native-base';
+import LogOutButton from "./LogOutButton";
 
 type Props = {
     title: string,
@@ -14,7 +15,9 @@ const AppHeader: FunctionComponent<Props> = ({title, LeftComponent}) => (
         <Body>
             <Title>{title}</Title>
         </Body>
-        <Right/>
+        <Right>
+            <LogOutButton/>
+        </Right>
     </Header>
 );
 export default AppHeader;

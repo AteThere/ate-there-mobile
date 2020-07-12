@@ -4,16 +4,38 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from "../screens/HomeScreen";
 import CounterScreen from "../screens/CounterScreen";
+import LogInScreen from "../screens/auth/LogInScreen";
+import {useStore} from "../stores";
+import {observer} from "mobx-react";
+import RegisterScreen from "../screens/auth/RegisterScreen";
 
 const Stack = createStackNavigator();
 
-const Navigation: FunctionComponent<{}> = () => (
-    <NavigationContainer>
-        <Stack.Navigator screenOptions={{headerShown: false}}>
-            <Stack.Screen name="Counter" component={CounterScreen}/>
-            <Stack.Screen name="Home" component={HomeScreen}/>
-        </Stack.Navigator>
-    </NavigationContainer>
-);
+const Navigation: FunctionComponent<{}> = () => {
+    const {authStore} = useStore();
 
-export default Navigation;
+    return (
+        <NavigationContainer>
+            <Stack.Navigator screenOptions={{headerShown: false}}>
+                {!authStore.isLoggedIn && (
+                    <>
+                        <Stack.Screen name="Register" component={RegisterScreen}/>
+                        <Stack.Screen name="LogIn" component={LogInScreen} options={{
+                            // When logging out, a pop animation feels intuitive
+                            // You can remove this if you want the default 'push' animation
+                            animationTypeForReplace: authStore.isLoggedIn ? 'pop' : 'push',
+                        }}/>
+                    </>
+                )}
+                {authStore.isLoggedIn && (
+                    <>
+                        <Stack.Screen name="Counter" component={CounterScreen}/>
+                        <Stack.Screen name="Home" component={HomeScreen}/>
+                    </>
+                )}
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
+};
+
+export default observer(Navigation);

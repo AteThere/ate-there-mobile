@@ -1,5 +1,4 @@
 import React from 'react';
-import 'mobx-react-lite/batchingForReactDom'
 import {Container, Content, Text} from 'native-base';
 import AppHeader from "../components/AppHeader";
 import NavButton from "../components/NavButton";
