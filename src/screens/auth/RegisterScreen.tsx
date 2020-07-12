@@ -1,22 +1,21 @@
-// @ts-ignore
 import React from 'react';
-// @ts-ignore
 import {Button, Container, Content, H1, Text, View} from 'native-base';
 import {StyleSheet} from "react-native";
-import LogInForm from "../../forms/LogInForm";
 import {useNavigation} from "@react-navigation/native";
+import RegisterForm from "../../forms/RegisterForm";
 
-const LogInScreen = () => {
+const RegisterScreen = () => {
     const navigation = useNavigation();
+
     return (
         <Container>
             <Content scrollEnabled={false} style={styles.content} padder>
                 <View style={styles.header}>
-                    <H1>Log In</H1>
+                    <H1>Register</H1>
                 </View>
-                <LogInForm style={styles.form}/>
-                <Button bordered style={styles.btn} onPress={() => navigation.navigate('Register')}>
-                    <Text>Don't have an account? Register here</Text>
+                <RegisterForm style={styles.form}/>
+                <Button bordered style={styles.btn} onPress={() => navigation.navigate('LogIn')}>
+                    <Text>Have an account? Log in here.</Text>
                 </Button>
 
                 <Button bordered style={styles.btn}>
@@ -25,7 +24,7 @@ const LogInScreen = () => {
             </Content>
         </Container>
     );
-};
+}
 
 const styles = StyleSheet.create({
     content: {
@@ -43,5 +42,4 @@ const styles = StyleSheet.create({
     },
 });
 
-// @ts-ignore
-export default LogInScreen;
+export default RegisterScreen;
