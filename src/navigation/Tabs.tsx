@@ -9,6 +9,7 @@ const Tabs = () => (
     <Tab.Navigator tabBar={props => <AppFooter {...props} />}>
         {tabsConfig.map(({title, component}) => (
             <Tab.Screen
+                key={title + 'Tab'}
                 name={title}
                 component={component as ComponentClass}
             />
