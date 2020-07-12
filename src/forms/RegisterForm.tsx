@@ -6,7 +6,6 @@ import {useStore} from "../stores";
 import {User} from "../stores/AuthStore";
 import {observer} from "mobx-react";
 import {YellowBox} from 'react-native'
-import {JsonView} from "../components/JsonView";
 
 YellowBox.ignoreWarnings([
     'Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`',
@@ -16,15 +15,18 @@ type Props = {
     style: any
 }
 
-const LogInForm: FunctionComponent<Props> = ({style}) => {
+const RegisterForm: FunctionComponent<Props> = ({style}) => {
     const {authStore} = useStore();
 
     const initialValues = {
+        name: 'Angel',
         email: 'angelx5moreno@gmail.com',
         password: 'abcd1234',
     };
 
     const schema = Yup.object().shape({
+        name: Yup.string()
+            .required(),
         email: Yup.string()
             .email('Invalid email')
             .required('Required'),
@@ -32,14 +34,14 @@ const LogInForm: FunctionComponent<Props> = ({style}) => {
             .required('Required'),
     });
 
-    const onLogInSuccess = (user: User) => {
+    const onRegisterSuccess = (user: User) => {
         Toast.show({
-            text: `Welcome back ${user.name}!`,
+            text: `Greetings ${user.name}!`,
             buttonText: 'Okay',
             type: 'success'
         })
     };
-    const onLoginFail = (e: Error) => {
+    const onRegisterFail = (e: Error) => {
         Toast.show({
             text: e.message,
             buttonText: 'Okay',
@@ -48,10 +50,10 @@ const LogInForm: FunctionComponent<Props> = ({style}) => {
         })
     };
 
-    const submitAction = async (values: { email: any; password: any; }, {setFieldError}: any) => {
+    const submitAction = async (values: { name: string, email: string; password: string; }, {setFieldError}: any) => {
         try {
-            const {email, password} = values;
-            await authStore.login(email, password, onLogInSuccess, onLoginFail);
+            const {name, email, password} = values;
+            await authStore.register(name, email, password, onRegisterSuccess, onRegisterFail);
         } catch (e) {
             Toast.show({
                 text: e.message,
@@ -73,9 +75,24 @@ const LogInForm: FunctionComponent<Props> = ({style}) => {
                   isSubmitting
               }) => (
                 <Form style={style}>
-                    <JsonView obj={authStore.user}/>
-                    <Item error={!!errors.email && touched.email} success={!errors.email && touched.email}>
+                    <Item error={!!errors.name && touched.name} success={!errors.name && touched.name}>
                         <Icon active name='person'/>
+                        <Input
+                            autoCapitalize={'words'}
+                            autoCompleteType={'name'}
+                            autoCorrect={true}
+                            autoFocus={true}
+                            clearButtonMode={'while-editing'}
+                            keyboardType={'default'}
+                            textContentType={'name'}
+
+                            placeholder='Your Email Address'
+                            onChangeText={handleChange('name')}
+                            onBlur={handleBlur('name')}
+                            value={values.name}/>
+                    </Item>
+                    <Item error={!!errors.email && touched.email} success={!errors.email && touched.email}>
+                        <Icon active name='mail'/>
                         <Input
                             autoCapitalize={'none'}
                             autoCompleteType={'email'}
@@ -108,7 +125,7 @@ const LogInForm: FunctionComponent<Props> = ({style}) => {
                             value={values.password}/>
                     </Item>
                     <Button style={{marginTop: 10, marginBottom: 20, justifyContent: 'center'}} onPress={handleSubmit}>
-                        <Text>Log In</Text>
+                        <Text>Register</Text>
                     </Button>
                 </Form>
             )}
@@ -117,4 +134,4 @@ const LogInForm: FunctionComponent<Props> = ({style}) => {
     );
 };
 
-export default observer(LogInForm);
+export default observer(RegisterForm);
