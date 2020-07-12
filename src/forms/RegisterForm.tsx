@@ -67,7 +67,7 @@ const RegisterForm: FunctionComponent<Props> = ({style}) => {
                   isSubmitting
               }) => (
                 <Form style={style}>
-                    <NameInput name={'name'} autoFocus={true}/>
+                    <NameInput name={'name'}/>
                     <EmailInput name={'email'}/>
                     <PasswordInput name={'password'}/>
                     <SubmitButton title={'Register'}/>

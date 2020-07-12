@@ -61,7 +61,7 @@ const LogInForm: FunctionComponent<Props> = ({style}) => {
                   isSubmitting
               }) => (
                 <Form style={style}>
-                    <EmailInput name={'email'} autoFocus={true}/>
+                    <EmailInput name={'email'}/>
                     <PasswordInput name={'password'}/>
                     <SubmitButton title={'Log In'}/>
                 </Form>
