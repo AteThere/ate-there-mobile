@@ -2,12 +2,11 @@ import * as React from 'react';
 import {FunctionComponent} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import HomeScreen from "../screens/HomeScreen";
-import CounterScreen from "../screens/CounterScreen";
 import LogInScreen from "../screens/auth/LogInScreen";
 import {useStore} from "../stores";
 import {observer} from "mobx-react";
 import RegisterScreen from "../screens/auth/RegisterScreen";
+import Tabs from "./Tabs";
 
 const Stack = createStackNavigator();
 
@@ -28,10 +27,7 @@ const Navigation: FunctionComponent<{}> = () => {
                     </>
                 )}
                 {authStore.isLoggedIn && (
-                    <>
-                        <Stack.Screen name="Counter" component={CounterScreen}/>
-                        <Stack.Screen name="Home" component={HomeScreen}/>
-                    </>
+                    <Stack.Screen name={'Tabs'} component={Tabs}/>
                 )}
             </Stack.Navigator>
         </NavigationContainer>

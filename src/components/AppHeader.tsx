@@ -4,14 +4,17 @@ import LogOutButton from "./LogOutButton";
 
 type Props = {
     title: string,
-    LeftComponent: React.ReactNode
+    LeftComponent?: React.ReactNode
 };
 
 const AppHeader: FunctionComponent<Props> = ({title, LeftComponent}) => (
     <Header hasSegment={false} hasSubtitle={false} hasTabs={false} style={{paddingTop: 0}}>
-        <Left>
-            {LeftComponent}
-        </Left>
+        {LeftComponent && (
+            <Left>
+                {LeftComponent}
+            </Left>
+        )}
+        {!!LeftComponent && <Left/>}
         <Body>
             <Title>{title}</Title>
         </Body>
