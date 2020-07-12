@@ -28,7 +28,7 @@ const RegisterScreen = () => {
 
 const styles = StyleSheet.create({
     content: {
-        top: '25%',
+        top: '15%',
     },
     header: {
         alignItems: 'center'

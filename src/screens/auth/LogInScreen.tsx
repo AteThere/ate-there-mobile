@@ -1,6 +1,4 @@
-// @ts-ignore
 import React from 'react';
-// @ts-ignore
 import {Button, Container, Content, H1, Text, View} from 'native-base';
 import {StyleSheet} from "react-native";
 import LogInForm from "../../forms/LogInForm";
@@ -29,7 +27,7 @@ const LogInScreen = () => {
 
 const styles = StyleSheet.create({
     content: {
-        top: '25%',
+        top: '15%',
     },
     header: {
         alignItems: 'center'

@@ -20,9 +20,9 @@ const RegisterForm: FunctionComponent<Props> = ({style}) => {
     const {authStore} = useStore();
 
     const initialValues = {
-        name: 'Angel',
-        email: 'angelx5moreno@gmail.com',
-        password: 'abcd1234',
+        name: '',
+        email: '',
+        password: '',
     };
 
     const schema = Yup.object().shape({
