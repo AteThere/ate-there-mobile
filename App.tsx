@@ -12,8 +12,9 @@ type State = {
     isReady: boolean,
 };
 
-export default class App extends Component<{}, State> {
-    constructor(props: Readonly<Props>) {
+type Props = {};
+export default class App extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             isReady: false,
