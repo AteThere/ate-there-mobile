@@ -21,8 +21,8 @@ const LogInForm: FunctionComponent<Props> = ({style}) => {
     const {authStore} = useStore();
 
     const initialValues = {
-        email: 'angelxmoreno@gmail.com',
-        password: 'abcd1234',
+        email: '',
+        password: '',
     };
 
     const schema = Yup.object().shape({
