@@ -1,26 +1,48 @@
 import React, {FunctionComponent} from 'react';
-import {Body, Header, Left, Right, Title} from 'native-base';
-import LogOutButton from "./LogOutButton";
+import {Body, Button, Header, Icon, Left, Right, Title} from 'native-base';
+import {useNavigation} from '@react-navigation/native';
+import {DrawerNavigationProp} from "@react-navigation/drawer";
 
-type Props = {
+type AppHeaderProps = {
     title: string,
-    LeftComponent?: React.ReactNode
+    hideMenu?: boolean,
+    LeftComponent?: React.ReactNode,
 };
 
-const AppHeader: FunctionComponent<Props> = ({title, LeftComponent}) => (
-    <Header hasSegment={false} hasSubtitle={false} hasTabs={false} style={{paddingTop: 0}}>
-        {LeftComponent && (
-            <Left>
-                {LeftComponent}
-            </Left>
-        )}
-        {!!LeftComponent && <Left/>}
-        <Body>
-            <Title>{title}</Title>
-        </Body>
-        <Right>
-            <LogOutButton/>
-        </Right>
-    </Header>
-);
+const AppHeader: FunctionComponent<AppHeaderProps> = (
+    {
+        title,
+        hideMenu = false,
+        LeftComponent,
+        ...rest
+    }
+) => {
+    const navigation = useNavigation<DrawerNavigationProp<any>>();
+
+    return (
+        <Header hasSegment={false} hasSubtitle={false} hasTabs={false} style={{paddingTop: 0}}>
+            {LeftComponent && (
+                <Left>
+                    {LeftComponent}
+                </Left>
+            )}
+            {!!LeftComponent && <Left/>}
+            <Body>
+                <Title>{title}</Title>
+            </Body>
+            {hideMenu && <Right/>}
+            {!hideMenu && (
+                <Right>
+                    <Button
+                        transparent
+                        onPress={() => navigation.openDrawer()}
+                    >
+                        <Icon name="menu"/>
+                    </Button>
+                </Right>
+            )}
+
+        </Header>
+    );
+};
 export default AppHeader;

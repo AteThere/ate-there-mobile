@@ -6,7 +6,7 @@ import LogInScreen from "../screens/auth/LogInScreen";
 import {useStore} from "../stores";
 import {observer} from "mobx-react";
 import RegisterScreen from "../screens/auth/RegisterScreen";
-import Tabs from "./Tabs";
+import DrawerNav from "./DrawerNav";
 
 const Stack = createStackNavigator();
 
@@ -27,7 +27,7 @@ const Navigation: FunctionComponent<{}> = () => {
                     </>
                 )}
                 {authStore.isLoggedIn && (
-                    <Stack.Screen name={'Tabs'} component={Tabs}/>
+                    <Stack.Screen name={'DrawerScreen'} component={DrawerNav}/>
                 )}
             </Stack.Navigator>
         </NavigationContainer>
