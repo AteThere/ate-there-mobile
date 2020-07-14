@@ -1,15 +1,10 @@
 import {action, computed, observable} from "mobx";
 import {persist} from "mobx-persist";
 import {login, register} from "../api/auth";
-
-export class User {
-    @persist @observable name: string | undefined;
-    @persist @observable email: string | undefined;
-    @persist @observable jwt: string | undefined;
-}
+import {UserEntity} from "../entities/UserEntity";
 
 export class AuthStore {
-    @persist('object', User) @observable user: User = new User();
+    @persist('object', UserEntity) @observable user: UserEntity = new UserEntity();
 
     // @ts-ignore
     @computed get isLoggedIn(): boolean {
@@ -25,7 +20,7 @@ export class AuthStore {
         name: string,
         email: string,
         password: string,
-        onSuccess: (user: User) => any,
+        onSuccess: (user: UserEntity) => any,
         onFail: (error: Error) => any
     ) {
         const {status, msg, user, jwt} = await register(name, email, password);
@@ -40,7 +35,7 @@ export class AuthStore {
     async login(
         email: string,
         password: string,
-        onSuccess: (user: User) => any,
+        onSuccess: (user: UserEntity) => any,
         onFail: (error: Error) => any
     ) {
         const {status, msg, user, jwt} = await login(email, password);
@@ -54,11 +49,11 @@ export class AuthStore {
 
 
     @action logout() {
-        this.user = new User();
+        this.user = new UserEntity();
     }
 
     @action setAuth(user: {}, jwt: string) {
-        const newUser = new User();
+        const newUser = new UserEntity();
         Object.assign(newUser, user);
         newUser.jwt = jwt;
         this.user = newUser;
