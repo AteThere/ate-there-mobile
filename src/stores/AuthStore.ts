@@ -3,20 +3,22 @@ import {persist} from "mobx-persist";
 import {login, register} from "../api/auth";
 
 export class User {
-    @persist @observable name: string;
-    @persist @observable email: string;
-    @persist @observable jwt: string;
+    @persist @observable name: string | undefined;
+    @persist @observable email: string | undefined;
+    @persist @observable jwt: string | undefined;
 }
 
 export class AuthStore {
     @persist('object', User) @observable user: User = new User();
 
+    // @ts-ignore
     @computed get isLoggedIn(): boolean {
         return !!(this.user && (this.user.jwt && this.user.jwt.length > 1));
     }
 
+    // @ts-ignore
     @computed get jwt(): string {
-        return this.user.jwt;
+        return <string>this.user.jwt;
     }
 
     async register(

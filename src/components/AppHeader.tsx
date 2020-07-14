@@ -20,7 +20,7 @@ const AppHeader: FunctionComponent<AppHeaderProps> = (
     const navigation = useNavigation<DrawerNavigationProp<any>>();
 
     return (
-        <Header hasSegment={false} hasSubtitle={false} hasTabs={false} style={{paddingTop: 0}}>
+        <Header hasSegment={false} hasSubtitle={false} hasTabs={false}>
             {LeftComponent && (
                 <Left>
                     {LeftComponent}
@@ -41,7 +41,6 @@ const AppHeader: FunctionComponent<AppHeaderProps> = (
                     </Button>
                 </Right>
             )}
-
         </Header>
     );
 };

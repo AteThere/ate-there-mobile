@@ -30,7 +30,7 @@ export default class App extends Component<Props, State> {
                 ...Ionicons.font,
             })
         ]);
-
+        await stores.searchStore.setInferredLocation();
         this.setState({isReady: true});
     }
 
