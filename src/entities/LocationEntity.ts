@@ -41,6 +41,17 @@ export class LocationEntity {
         return idMaker([this.name, this.lat || '', this.lon || '']);
     }
 
+    get searchData(): { location: string } | { latitude: number, longitude: number } {
+        if (this.lat && this.lon) {
+            return {
+                latitude: this.lat,
+                longitude: this.lon
+            }
+        }
+
+        return {location: this.name}
+    }
+
     static fromIpApiCom(data: IpApiComResponse) {
         const location = new LocationEntity(
             '',

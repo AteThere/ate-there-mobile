@@ -1,65 +1,49 @@
-import {action, computed, observable} from "mobx";
-import {persist} from "mobx-persist";
-import LocationServices from "../functions/location-services";
-import {isPhoneLocationPermissionGranted} from "../functions/location-services/by-gps";
-import {isInternetReachable} from "../functions/network";
+import {CategoryEntity} from "../entities/CategoryEntity";
 import {LocationEntity} from "../entities/LocationEntity";
+import {action, observable} from "mobx";
+import {persist} from "mobx-persist";
+import restClient from "../api/RestClient";
+import {PlaceEntity} from "../entities/PlaceEntity";
 
-const defaultLocation = new LocationEntity(
-    '2719 morris ave.',
-    'The Bronx',
-    'NY',
-    '10468'
-);
+export class SearchData {
+    @persist('list', PlaceEntity) places: Array<PlaceEntity> = [];
+    @persist total: number = 0;
+}
 
 export class SearchStore {
-    @persist @observable category: string = '';
-    @persist('object', LocationEntity) @observable location: LocationEntity = defaultLocation;
+    @persist('object', LocationEntity) @observable location: LocationEntity = new LocationEntity();
+    @persist('object', CategoryEntity) @observable category: CategoryEntity = new CategoryEntity();
 
-    @persist('map', LocationEntity) @observable _locationHistory: Map<string, LocationEntity> = new Map<string, LocationEntity>();
-
-    @computed
-    get locationHistory() {
-        return Array.from(this._locationHistory.values()).reverse();
-    }
-
-    async inferLocation() {
-        let location = defaultLocation;
-
-        if (await isPhoneLocationPermissionGranted()) {
-            location = await LocationServices.getByGps()
-        }
-
-        if (await isInternetReachable()) {
-            location = await LocationServices.getByIp();
-        }
-
-        return location;
-    }
-
-    @action
-    async setInferredLocation() {
-        if (this._locationHistory.size === 0) {
-            const location = await this.inferLocation();
-            this.setLocation(location);
-        }
-    }
+    @observable collection: Map<string, SearchData> = new Map<string, SearchData>();
 
     @action
     setLocation(location: LocationEntity) {
-        if (this.location.id === location.id) {
-            return;
-        }
         this.location = location;
-        if (this._locationHistory.has(location.id)) {
-            this._locationHistory.delete(location.id);
-        }
-        this._locationHistory.set(location.id, location);
     }
 
     @action
-    delLocation(location: LocationEntity) {
-        this._locationHistory.delete(location.id)
+    setCategory(category: CategoryEntity) {
+        this.category = category
+    }
+
+    buildSearchParams() {
+        let params = {};
+
+        if (this.location) {
+            params = {...params, ...this.location.searchData}
+        }
+        console.log('this.category', this.category)
+        if (this.category) {
+            params = {...params, categories: this.category.slug}
+        }
+
+        return params;
+    }
+
+    async search(): Promise<SearchData> {
+        const params = this.buildSearchParams();
+        const data = await restClient.getCached('/search/places', params);
+        return data as SearchData;
     }
 }
 
