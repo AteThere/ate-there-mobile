@@ -1,12 +1,12 @@
 import axios, {AxiosInstance} from 'axios';
 
 const baseURL = 'https://ate-there-api.herokuapp.com/';
-
-const client: AxiosInstance = axios.create({
+const config = {
     baseURL,
     headers: {
-        Accept: 'application/json'
+        Accept: 'application/json',
     },
-});
+}
+const client: AxiosInstance = axios.create(config);
 
 export default client;
