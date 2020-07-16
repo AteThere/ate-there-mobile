@@ -3,10 +3,16 @@ import {create} from 'mobx-persist';
 import AsyncStorage from '@react-native-community/async-storage';
 import {CounterStore} from "./CounterStore";
 import {AuthStore} from "./AuthStore";
+import {SearchStore} from "./SearchStore";
+import {CategoryStore} from "./CategoryStore";
+import {LocationStore} from "./LocationStore";
 
 export const stores = {
     counterStore: new CounterStore(),
-    authStore: new AuthStore()
+    authStore: new AuthStore(),
+    searchStore: new SearchStore(),
+    categoryStore: new CategoryStore(),
+    locationStore: new LocationStore(),
 };
 
 export const StoreContext = createContext(stores);

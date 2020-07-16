@@ -3,11 +3,11 @@ import {Form} from "native-base";
 import * as Yup from 'yup';
 import {Formik} from 'formik';
 import {useStore} from "../stores";
-import {User} from "../stores/AuthStore";
 import {observer} from "mobx-react";
 import {YellowBox} from 'react-native'
 import Notifications from '../functions/notifications';
 import {EmailInput, NameInput, PasswordInput, SubmitButton} from "./form-inputs";
+import {UserEntity} from "../entities/UserEntity";
 
 YellowBox.ignoreWarnings([
     'Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`',
@@ -38,7 +38,7 @@ const RegisterForm: FunctionComponent<Props> = ({style}) => {
             .required('Required'),
     });
 
-    const onRegisterSuccess = (user: User) => {
+    const onRegisterSuccess = (user: UserEntity) => {
         Notifications.success({
             text: `Greetings ${user.name}!`,
         });
