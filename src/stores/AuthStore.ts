@@ -2,6 +2,7 @@ import {action, computed, observable} from "mobx";
 import {persist} from "mobx-persist";
 import {login, register} from "../api/auth";
 import {UserEntity} from "../entities/UserEntity";
+import jwtStorage from "../functions/JwtStorage";
 
 export class AuthStore {
     @persist('object', UserEntity) @observable user: UserEntity = new UserEntity();
@@ -49,14 +50,14 @@ export class AuthStore {
 
 
     @action logout() {
-        this.user = new UserEntity();
+        jwtStorage.del().then(() => this.user = new UserEntity());
     }
 
     @action setAuth(user: {}, jwt: string) {
         const newUser = new UserEntity();
         Object.assign(newUser, user);
         newUser.jwt = jwt;
-        this.user = newUser;
+        jwtStorage.set(jwt).then(() => this.user = newUser)
     }
 }
 
