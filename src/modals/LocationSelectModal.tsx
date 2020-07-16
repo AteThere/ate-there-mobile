@@ -5,6 +5,7 @@ import {useStore} from "../stores";
 import {observer} from "mobx-react";
 import {SearchBar} from "react-native-elements";
 import LocationServices from '../functions/location-services'
+import {LocationEntity} from "../entities/LocationEntity";
 
 interface Props extends Omit<AppModalProps, 'title' | 'children'> {
 }
@@ -13,9 +14,13 @@ type WithCloseProps = {
     close: () => any;
 };
 
-const LocationSearch: FunctionComponent<WithCloseProps> = ({close}) => {
+type WithOnSelectProps = {
+    onSelect?: (location: LocationEntity) => any
+};
+
+const LocationSearch: FunctionComponent<WithCloseProps & WithOnSelectProps> = ({close, onSelect}) => {
     let searchBox: SearchBar | null;
-    const {searchStore} = useStore();
+    const {locationStore} = useStore();
     const [searchText, updateSearch] = useState('');
     const [isLoading, setLoading] = useState(false);
     const [subtext, setSubText] = useState('');
@@ -27,7 +32,10 @@ const LocationSearch: FunctionComponent<WithCloseProps> = ({close}) => {
             setSubText('No address found. Please try again.');
             setLoading(false);
         } else {
-            searchStore.setLocation(locations[0]);
+            locationStore.set(locations[0]);
+            if (onSelect) {
+                onSelect(locations[0])
+            }
             searchBox?.clear();
             close();
         }
@@ -58,10 +66,10 @@ const LocationSearch: FunctionComponent<WithCloseProps> = ({close}) => {
     );
 };
 
-const LocationHistoryList: FunctionComponent<WithCloseProps> = observer(({close}) => {
-    const {searchStore} = useStore();
+const LocationHistoryList: FunctionComponent<WithCloseProps & WithOnSelectProps> = observer(({close, onSelect}) => {
+    const {locationStore} = useStore();
 
-    if (searchStore.locationHistory.length === 0) {
+    if (locationStore.collection.size === 0) {
         return <H3 style={{margin: 15}}>No Locations used</H3>;
     }
 
@@ -70,9 +78,12 @@ const LocationHistoryList: FunctionComponent<WithCloseProps> = observer(({close}
             <Separator bordered>
                 <Text>History</Text>
             </Separator>
-            {searchStore.locationHistory.map(location => (
+            {locationStore.asArray.map(location => (
                 <ListItem onPress={() => {
-                    searchStore.setLocation(location);
+                    locationStore.set(location);
+                    if (onSelect) {
+                        onSelect(location)
+                    }
                     close()
                 }} key={location.id}>
                     <Body>
@@ -80,7 +91,7 @@ const LocationHistoryList: FunctionComponent<WithCloseProps> = observer(({close}
                         <Text note>{location.id}</Text>
                     </Body>
                     <Right>
-                        <Button danger small onPress={() => searchStore.delLocation(location)}>
+                        <Button danger small onPress={() => locationStore.remove(location)}>
                             <Icon name={'close'}/>
                         </Button>
                     </Right>
@@ -90,14 +101,12 @@ const LocationHistoryList: FunctionComponent<WithCloseProps> = observer(({close}
     );
 });
 
-const LocationSelectModal: FC<Props> = (props) => {
-    const {searchStore} = useStore();
-
+const LocationSelectModal: FC<Props & WithOnSelectProps> = ({onSelect, ...props}) => {
     return (
         <AppModal title={'Select Location'} {...props}>
             <Content>
-                <LocationSearch close={() => props.setVisibility(false)}/>
-                <LocationHistoryList close={() => props.setVisibility(false)}/>
+                <LocationSearch close={() => props.setVisibility(false)} onSelect={onSelect}/>
+                <LocationHistoryList close={() => props.setVisibility(false)} onSelect={onSelect}/>
             </Content>
         </AppModal>
     );
